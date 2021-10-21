@@ -1,12 +1,12 @@
-import {context} from '@actions/github';
 import * as core from '@actions/core';
 import * as exec from '@actions/exec';
 import * as github from '@actions/github';
-import {Inputs} from './interfaces';
-import {showInputs, getInputs} from './get-inputs';
-import {setTokens} from './set-tokens';
-import {setRepo, setCommitAuthor, getCommitMessage, commit, push, pushTag} from './git-utils';
-import {getWorkDirName, addNoJekyll, addCNAME, skipOnFork} from './utils';
+import { context } from '@actions/github';
+import { getInputs, showInputs } from './get-inputs';
+import { commit, getCommitMessage, push, pushTag, setCommitAuthor, setRepo } from './git-utils';
+import { Inputs } from './interfaces';
+import { setTokens } from './set-tokens';
+import { addCNAME, addNoJekyll, getWorkDirName, skipOnFork } from './utils';
 
 export async function run(): Promise<void> {
   try {
@@ -61,7 +61,7 @@ export async function run(): Promise<void> {
       core.info(`[INFO] ${e.message}`);
     }
     await exec.exec('git', ['remote', 'add', 'origin', remoteURL]);
-    await exec.exec('git', ['add', '--all']);
+    await exec.exec('git', ['add', '--all', '-f']);
     await setCommitAuthor(inps.UserName, inps.UserEmail);
     core.endGroup();
 
